@@ -1,171 +1,11 @@
 # -*- coding: utf8 -*-
 # 도서관 연체자 기록 프로그램
 
-# 이하는 상태 코드
-INVAILD_NUMBER_GIVEN = -1
-CRITICAL_FAILURE = -99
+import ListManipulator
+import student
 
-# 학생
-class student:
-        '''
-                name        = 이름
-                grade       = 학년
-                classNum    = 반
-                delayAmount = 연체 일수
-        '''
-        def __init__(self, name, grade, classNum, studentID, delayAmount):
-                self.name = name
-                self.grade = grade
-                self.classNum = classNum
-                self.delayAmount = delayAmount
-                self.studentID = studentID
+class libraryProgram:
 
-        def getName(self):
-                return self.name
-
-        def setName(self, newValue):
-                self.name = newValue
-                return self.name
-
-        def getGrade(self):
-                return self.grade
-
-        def setGrade(self, newValue):
-                self.grade = newValue
-                return self.grade
-
-        def getClassNum(self):
-                return self.classNum
-
-        def setClassNum(self, newValue):
-                self.classNum = newValue
-                return self.classNum
-
-        def getDelayAmount(self):
-                return self.delayAmount
-
-        def setDelayAmount(self, newValue):
-                self.delayAmount = newValue
-                return self.delayAmount
-
-        def getStudentID(self):
-                return self.studentID
-
-# 명단 관리 클래스
-# 학생들을 '어떻게 찾아낼 것인지' 기준점 같은게 있어야 함
-# '학생 ID' 를 이용해서 탐색하면 됨
-class ListManipulator:
-
-        # 학생 리스트
-        global StudentList
-        StudentList = []
-
-        # 토큰
-        STUDENT_ID              = 100
-        STUDENT_NAME            = 101
-        STUDENT_GRADE           = 102
-        STUDENT_CLASS_NUMBER = 103
-        STUDENT_DELAY_AMOUNT = 104
-
-        @staticmethod
-        def createStudent(name, grade, classNum, studentID, delayAmount):
-                # if classNum.isalpha() == False or grade.isalpha() == False or delayAmount.isalpha() == False:
-                        #print StudentList
-                        #return False
-
-                instance = student(name, grade, classNum, studentID, delayAmount)
-                StudentList.append(instance)
-                print StudentList
-
-        @staticmethod
-        def searchStudent(studentID):
-                for studentData in StudentList:
-                        if studentData.getStudentID() == studentID:
-                                return studentData
-                return False
-
-        # 반환형이 리스트임에 주의
-        @staticmethod
-        def getStudentData(token):
-
-                dataBuffer = []
-                if token == ListManipulator.STUDENT_ID:
-                        for studentData in StudentList:
-                                print studentData
-                                dataBuffer.append(studentData)
-                                return dataBuffer
-                                # return lambda x: x.append(studentData.getStudentID())
-                elif token == ListManipulator.STUDENT_GRADE:
-                        for studentData in StudentList:
-                                print studentData
-                                dataBuffer.append(studentData)
-                                return dataBuffer
-                                # return lambda x: x.append(studentData.getGrade())
-                elif token == ListManipulator.STUDENT_NAME:
-                        for studentData in StudentList:
-                                print studentData
-                                dataBuffer.append(studentData)
-                                return dataBuffer
-                                # return lambda x: x.append(studentData.getName())
-                elif token == ListManipulator.STUDENT_DELAY_AMOUNT:
-                        for studentData in StudentList:
-                                print studentData
-                                dataBuffer.append(studentData)
-                                return dataBuffer
-                                # return lambda x: x.append(studentData.getDelayAmount())
-                elif token == ListManipulator.STUDENT_CLASS_NUMBER:
-                        for studentData in StudentList:
-                                print studentData
-                                dataBuffer.append(studentData)
-                                return dataBuffer
-                                # return lambda x: x.append(studentData.getClassNum())
-
-        # 탐색이 먼저 선행된 후에 삭제해야 함. 인스턴스째로 날리면 됨
-        # 일반적인 방식으로는 안될 가능성 큼(리스트가 인스턴스를 담고 있어 수정이 힘듬)
-        # 파일에서 정보를 불러오는 형식으로 짜는것도 나쁘진 않을듯?
-        @staticmethod
-        def deleteStudent(studentID):
-
-                idx = 0
-                if ListManipulator.searchStudent(studentID) is not False:
-                        instance = ListManipulator.searchStudent(studentID)
-
-        # 몇번째 정보인지를 알아내야 함
-                ID = ListManipulator.getStudentData(ListManipulator.STUDENT_ID)
-                print ListManipulator.getStudentData(ListManipulator.STUDENT_ID)
-                
-                for i in ID:
-                        if instance.getStudentID == i:
-                                 # 만약 값이 없다면 여기에서 예외처리
-                                idx = getStudentData(ListManipulator.STUDENT_ID).index(ID)
-
-                del StudentList[idx]
-
-                # 데이터 정리
-                for i in range(idx, len(StudentList)-2):
-                        if StudentList[i] == None: return
-                        StudentList[i] = StudentList[i+1]
-
-                return True
-
-        @staticmethod
-        def setDelayAmount(studentID, newValue):
-
-                # 안쓰이는 코드. 개선 필요함
-                if newValue <= 0:
-                        return INVAILD_NUMBER_GIVEN
-
-                if ListManipulator.searchStudent(studentID) is not False:
-                        instance = ListManipulator.searchStudent(studentID)
-                        print type(instance)
-                        if isinstance(instance, student) is True:
-                                instance.setDelayAmount(newValue)
-                                return
-                return False
-
-class commandHandler:
-
-        global Manipulator
         Manipulator = ListManipulator()
 
         @staticmethod
@@ -211,7 +51,9 @@ class commandHandler:
         def showAllList():
                 pass
 
-command = commandHandler()
+# 인스턴스를 왜 여기서 구현하는거지..?
+# 코드 정리가 필요함
+program = libraryProgram()
 
 while(True):
         print('장흥고등학교 도서관 연체자 기록 프로그램 v 0.1')
@@ -223,17 +65,17 @@ while(True):
 
         my_input = int(raw_input("> "))
         if my_input == 1:
-                print command
-                command.createStudent()
+                # print command
+                program.createStudent()
         elif my_input == 2:
-                print command
-                command.deleteStudent()
+                # print command
+                program.deleteStudent()
         elif my_input == 3:
-                print command
-                command.setDelayAmount()
+                # print command
+                program.setDelayAmount()
         elif my_input == 4:
-                print command
+                # print command
                 command.searchStudent()
         elif my_input == 5:
-                print command
-                
+                # print command
+                # TODO : 일괄 조회기능 구현
