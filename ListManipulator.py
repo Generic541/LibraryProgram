@@ -25,6 +25,8 @@
         그 후 해당 인스턴스의 '연체 일수' 값을 newValue 로 변경합니다.
 '''
 
+import student
+
 class ListManipulator:
 
         # 학생 리스트
@@ -133,3 +135,22 @@ class ListManipulator:
                                 instance.setDelayAmount(newValue)
                                 return
                 return False
+
+
+        # 데이터 일괄 조회 메소드
+        # 아직 제대로 손보지는 않아서.. 토큰마다 입력값 달리 해주는거  
+
+        @staticmethod
+        def searchAllStudent(token):
+
+            # StudentList 리스트의 길이 먼저 확인
+            if len(StudentList) <= 0:
+                return False
+
+            # 이름 전체 조회 - 테스트용
+            temp = ListManipulator.getStudentData()
+            for i in len(temp):
+                print temp.getName()
+                return
+
+
